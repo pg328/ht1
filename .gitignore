@@ -1,0 +1,5 @@
+email_scheduler/node_modules
+email_scheduler/yarn.lock
+email_scheduler/dist
+.env*
+redis/dev

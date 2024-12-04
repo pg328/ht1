@@ -1,0 +1,27 @@
+{
+  "name": "healthtech-1",
+  "version": "1.0.0",
+  "description": "Take Home Test for HealthTech-1",
+  "main": "index.ts",
+  "author": "Phil George <23001002+pg328@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "node --watch -r ts-node/register index.ts",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "bull": "^4.16.4",
+    "express": "^4.21.1",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "react": "^18.3.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "healthtech-1",
+  "version": "1.0.0",
+  "description": "Docker wrapper around project",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml --env-file .env.dev up --watch",
+    "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env.prod up",
+    "setup": "cd ./email_scheduler && yarn"
+  }
+}

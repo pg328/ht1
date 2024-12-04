@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  redis:
+    image: "redis:6"
+    container_name: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - scheduler_network
+  email_scheduler:
+    restart: on-failure
+    build: ./email_scheduler
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - redis
+    networks:
+      - scheduler_network
+    environment:
+      REDIS_URL: redis://${REDIS_HOST}:${REDIS_PORT}
+      PORT: ${PORT}
+    volumes:
+      - ./email_scheduler:/usr/src/app
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./
+          target: /
+networks:
+  scheduler_network:
+    driver: bridge

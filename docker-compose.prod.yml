@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  redis:
+    image: "redis:6"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - scheduler_network
+    volumes:
+      - ./redis/prod:/data
+  email_scheduler:
+    # Start the project via the built static files
+    command: bash -c "yarn build && yarn start";
+    restart: on-failure
+    build: ./email_scheduler
+    ports:
+      - "${PORT}:3000"
+    depends_on:
+      - redis
+    networks:
+      - scheduler_network
+    env_file:
+      - .env.prod
+    volumes:
+      - ./email_scheduler:/usr/src/app
+    develop:
+      watch:
+        # Rebuild on code changes
+        - action: rebuild
+          path: ./
+          target: /
+networks:
+  scheduler_network:
+    driver: bridge

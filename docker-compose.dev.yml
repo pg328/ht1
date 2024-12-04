@@ -1,0 +1,36 @@
+services:
+  redis:
+    image: "redis:6"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - scheduler_network
+    volumes:
+      - ./redis/dev:/data
+  email_scheduler:
+    # Run dev server
+    command: yarn dev
+    restart: on-failure
+    build: ./email_scheduler
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - redis
+    networks:
+      - scheduler_network
+    env_file:
+      - .env.dev
+    volumes:
+      - ./email_scheduler:/usr/src/app
+    # Watch for code changes to update dev server
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /
+          ignore:
+            - node_modules/
+networks:
+  scheduler_network:
+    driver: bridge
